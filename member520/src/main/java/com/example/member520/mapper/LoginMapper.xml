@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "mybatis-3-mapper.dtd">
+<mapper namespace="com.example.member520.mapper.LoginMapper">
+	<select id="checkLogin" parameterType="com.example.member520.dto.Member">
+		SELECT COUNT(*) FROM member 
+		WHERE id = #{id} AND pw = #{pw};
+	</select>
+	
+	<insert id="insertLoginHistory" parameterType="com.example.member520.dto.Member" >
+		INSERT INTO login_history (id) VALUES (#{id});
+	
+	</insert>
+	
+	<select id="loginExpire" resultType="com.example.member520.dto.Member">
+		SELECT m.id, m.email, MAX(l.logindate) AS last_login
+		FROM member m
+		JOIN login_history l ON  m.id = l.id
+		GROUP BY m.id, m.email
+		HAVING last_login &lt; NOW() - INTERVAL 1 YEAR;
+	
+	</select>
+	
+	<update id="updateActive" parameterType="string">
+		UPDATE member SET active = "OFF" WHERE id = #{id};
+	</update>
+</mapper>
