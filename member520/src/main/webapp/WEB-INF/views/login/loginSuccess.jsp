@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${empty sessionScope.id}">
-	<c:redirect url ="/login"/>
+	<c:redirect url="/login"/>
 </c:if>
 <!DOCTYPE html>
 <html>
@@ -11,10 +11,15 @@
 <title>로그인 성공</title>
 </head>
 <body>
-    <h1>성공!</h1>
+    <h1>로그인성공!</h1>
 
     <form action="/logout" method="post">
         <button type="submit">로그아웃</button>
     </form>
+
+    
+    <p>
+        <a href="/changePw">비밀번호 변경</a>
+    </p>
 </body>
 </html>

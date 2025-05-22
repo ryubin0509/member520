@@ -9,7 +9,7 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#addBtn').click(function(){
-			if($('#name').val().length < 4){
+/* 			if($('#name').val().length < 4){
 				alert('name은 4자이상');
 				return;
 			}
@@ -18,7 +18,7 @@
 				alert('age는 0~200 숫자만');
 				return;
 			}
-			
+			 */
 			$('#addForm').submit();
 			
 		})
@@ -30,12 +30,14 @@
 <body>
 	<h1>addSample</h1>
 	<span>${msg}</span>
-	<form id="addForm" method="post"   action="/addSample">
+	<form id="addForm" method="post"   action="/addSample"> 
 		<div>
-			name : <input type="text" id="name" name="name">
+			name : <input type="text" id="name" name="name"> 
+			<span> ${nameErrMsg} </span>
 		</div>
 		<div>
-			age : <input type="number" id="age" name="age" min="0" max ="200">
+			age : <input type="number" id="age" name="age" min="0" max ="200"> 
+			<span> ${ageErrMsg} </span>
 		</div>
 		<div>
 			<button type="button" id="addBtn">입력</button>

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.member520.Schedul.MySchedule;
+import com.example.member520.dto.ChangePassword;
 import com.example.member520.dto.Member;
+import com.example.member520.dto.PwHistory;
 import com.example.member520.mapper.LoginMapper;
 
 import jakarta.mail.Transport;
@@ -22,7 +24,31 @@ import lombok.extern.slf4j.Slf4j;
 public class LoginService implements ILoginService {
 	@Autowired LoginMapper loginMapper;
 	@Autowired JavaMailSender javaMailSender;
+
+	@Override
+	public int insertPwHistory(PwHistory pwhistory) {
+		return loginMapper.insertPwHistory(pwhistory);
+	}
 	
+	
+	@Override
+	public int checkPassword(PwHistory pwhistory) {
+		return loginMapper.checkPassword(pwhistory);
+
+	}
+
+	
+	@Override
+	public void updatePassword(ChangePassword changePassword) {
+		loginMapper.updatePassword(changePassword);
+	
+	}
+	
+	@Override
+	public Member selectId(String id) {
+		Member member = loginMapper.selectId(id);
+		return member;
+	}
 	
 	@Override
 	public void loginExpire() {
@@ -66,11 +92,14 @@ public class LoginService implements ILoginService {
 
 	@Override
 	public void updateActive(String id) {
-		// TODO Auto-generated method stub
 		loginMapper.updateActive(id);
 	}
 
-	
-	
+
+	@Override
+	public void deletePassWordHistory() {
+		loginMapper.deletePassWordHistory();
+		
+	}
 
 }

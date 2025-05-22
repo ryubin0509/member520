@@ -23,4 +23,35 @@
 	<update id="updateActive" parameterType="string">
 		UPDATE member SET active = "OFF" WHERE id = #{id};
 	</update>
+	
+	<select id="selectId" parameterType="string" resultType="com.example.member520.dto.Member">
+		SELECT id id ,pw pw FROM member WHERE id = #{id};
+	</select>
+	
+	<update id="updatePassword" parameterType="com.example.member520.dto.ChangePassword">
+		UPDATE member SET pw = #{newPw}  WHERE id = #{id} AND pw = #{currentPw};  
+	</update>
+	
+	<select id="checkPassword" parameterType="com.example.member520.dto.PwHistory">
+		SELECT COUNT(*) FROM pw_history WHERE id = #{id} AND pw = #{pw};
+	</select>
+	
+	<insert id="insertPwHistory" parameterType="com.example.member520.dto.PwHistory">
+		INSERT INTO pw_history (id,pw) VALUES (#{id}, #{pw});   
+	</insert>
+	
+	<delete id="deletePassWordHistory">
+		DELETE FROM pw_history
+		WHERE no NOT IN (
+		    SELECT no FROM (
+		        SELECT no
+		        FROM (
+		            SELECT no,
+		                   ROW_NUMBER() OVER(PARTITION BY id ORDER BY change_date DESC) AS rn
+		            FROM pw_history
+		        ) AS ranked
+		        WHERE rn &lt;= 5
+		    ) AS temp
+		);
+	</delete>
 </mapper>
